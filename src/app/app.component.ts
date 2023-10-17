@@ -1,14 +1,23 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IProduct} from "./models/product";
-import {products as data} from "./data/products";
+import {ProductsService} from "./services/products.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'angular app';
 
-  products: IProduct[] = data
+export class AppComponent implements OnInit{
+  title = 'angular app';
+  products: IProduct[] = []
+
+  constructor(private productsServise: ProductsService) {
+  }
+
+  ngOnInit() {
+    this.productsServise.getAll().subscribe(products => {
+      this.products = products
+    })
+  }
 }
